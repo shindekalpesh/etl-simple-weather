@@ -21,7 +21,17 @@ def extract_data(city: str) -> dict:
     # print(response.url)
     return response.json()
 
-print(extract_data('Mumbai'), type(extract_data('Mumbai')))
+print("extract_data('Mumbai')", type(extract_data('Mumbai')), extract_data('Mumbai'))
 
 def transform_data(data: dict) -> dict:
-    pass
+    transformed_data = {
+        "city": data['name'],
+        "temp": data['main']['temp'],
+        "description": data['weather'][0]['description']
+        # "description": data['main'][0]['description']
+    }
+
+    return transformed_data
+
+data = extract_data('Mumbai')
+print("transform_data(data)", type(transform_data(data)), transform_data(data))
