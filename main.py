@@ -25,9 +25,7 @@ def transform_data(data: dict) -> dict:
     global timestamp_converted
     _now = datetime.now()
     timestamp = _now.strftime("%Y-%m-%d %H:%M:%S")
-    # print("timestamp", type(timestamp), timestamp)
     timestamp_converted = _now.strftime("%d%m%Y_%H%M%S")
-    # print("timestamp", type(timestamp), timestamp)
 
     transformed_data = {
         "city": data['name'],
@@ -45,9 +43,11 @@ def transform_data(data: dict) -> dict:
 # print("transform_data(data)", type(transform_data(data)), transform_data(data))
 
 
-def load_data(data: dict, filename: str) -> None:
+def load_data(data: dict) -> None:
     df = pd.DataFrame([data])
+    filename = f'weather_data_{city}_{timestamp_converted}.csv'
     df.to_csv(filename, index=False)
+    print(filename)
     print("load_data func has completed.")
 # load_data(data)
 
@@ -56,7 +56,8 @@ def run_etl_pipeline(city: str) -> None:
     try:
         extracted_data = extract_data(city)
         transformed_data = transform_data(extracted_data)
-        load_data(transformed_data, f'weather_data_{city}_{timestamp_converted}.csv')
+        # load_data(transformed_data, f'weather_data_{city}_{timestamp_converted}.csv')
+        load_data(transformed_data)
     
         print(f'File weather_data_{city}_{timestamp_converted}.csv created.')
 
