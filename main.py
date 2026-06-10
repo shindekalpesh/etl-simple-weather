@@ -22,10 +22,11 @@ def extract_data(city: str) -> dict:
 # print("extract_data('Mumbai')", type(extract_data('Mumbai')), extract_data('Mumbai'))
 
 def transform_data(data: dict) -> dict:
-    global timestamp
-    timestamp = datetime.now()
+    global timestamp_converted
+    _now = datetime.now()
+    timestamp = _now.strftime("%Y-%m-%d %H:%M:%S")
     # print("timestamp", type(timestamp), timestamp)
-    timestamp = timestamp.strftime("%d%m%Y_%H%M%S")
+    timestamp_converted = _now.strftime("%d%m%Y_%H%M%S")
     # print("timestamp", type(timestamp), timestamp)
 
     transformed_data = {
@@ -38,7 +39,7 @@ def transform_data(data: dict) -> dict:
     }
 
     print("transform_data func has completed.")
-    return transformed_data, timestamp
+    return transformed_data     #, timestamp
 
 # data = extract_data('Mumbai')
 # print("transform_data(data)", type(transform_data(data)), transform_data(data))
@@ -55,9 +56,9 @@ def run_etl_pipeline(city: str) -> None:
     try:
         extracted_data = extract_data(city)
         transformed_data = transform_data(extracted_data)
-        load_data(transformed_data, f'weather_data_{city}{timestamp}.csv')
+        load_data(transformed_data, f'weather_data_{city}_{timestamp_converted}.csv')
     
-        print(f'File weather_data_{city}_{timestamp}.csv created.')
+        print(f'File weather_data_{city}_{timestamp_converted}.csv created.')
 
     # except ConnectionError as e:
     except requests.exceptions.ConnectionError as e:
